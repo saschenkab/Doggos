@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { Temperament } = require("../db");
 const { getDoggosDetails } = require("../utils/controller/index");
+const { getDogs } = require("../utils/endpoints/index");
 
 const temperament = Router();
 
@@ -17,17 +18,15 @@ temperament.get("/", async (req, res) => {
 
     let temperaments = [...new Set(json)].filter((el, index) => index > 0);
 
-    temperaments.forEach(async (temperament) => {
-      await Temperament.create({
-        name: temperament,
-      });
-    });
-
-    temperaments = temperaments.map((el) => {
-      return {
-        name: el,
-      };
-    });
+    temperaments = await Promise.all(
+      temperaments.map(async (temperament) => {
+        return await Temperament.findOrCreate({
+          where: {
+            name: temperament,
+          },
+        });
+      })
+    );
 
     res.json(temperaments);
   } catch (error) {

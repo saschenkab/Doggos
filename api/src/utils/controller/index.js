@@ -14,6 +14,7 @@ const getApiDogs = async () => {
         name: dog.name,
         temperament: dog.temperament,
         weight: dog.weight.metric,
+        life_span: dog.life_span,
       };
     });
     return dogs;
@@ -40,7 +41,7 @@ const getDoggosDetails = async () => {
         name: dog.name,
         temperament: dog.temperament,
         weight: dog.weight.metric,
-        temperament: dog.temperament,
+        life_span: dog.life_span,
       };
     });
   } catch (error) {
