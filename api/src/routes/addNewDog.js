@@ -30,10 +30,6 @@ const createDoggoSchema = {
   },
   image: {
     optional: { options: { nullable: true } },
-
-    isURL: {
-      errorMessage: "Image must be a valid URL",
-    },
   },
 };
 
@@ -53,7 +49,7 @@ addNewDog.post("/", checkSchema(createDoggoSchema), async (req, res) => {
     );
 
     let img =
-      "https://www.vanidades.com/__export/1630438707941/sites/vanidades/img/historico/2021/01/thesnoopyshowpeanutsjpg.jpg_1902800913.jpg";
+      "https://pbs.twimg.com/media/FP_jIrZWQAU8cvD?format=png&name=small";
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ success: false, errors: errors.array() });
@@ -70,7 +66,7 @@ addNewDog.post("/", checkSchema(createDoggoSchema), async (req, res) => {
         image: image ? image : img,
       });
 
-      await doggos.addTemperament(temperament.flat());
+      await doggos.setTemperaments(temperament.flat());
 
       if (doggos) {
         res
